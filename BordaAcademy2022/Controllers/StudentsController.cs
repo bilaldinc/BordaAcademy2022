@@ -12,7 +12,6 @@ namespace BordaAcademy2022.Controllers
         [HttpGet]
         public IActionResult MyMethod()
         {
-
             return Ok("Student 1");
         }
     }
