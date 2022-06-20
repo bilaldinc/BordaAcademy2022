@@ -1,4 +1,5 @@
 using BordaAcademy2022.Database;
+using BordaAcademy2022.Middlewares;
 using BordaAcademy2022.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,12 +23,14 @@ void ConfigureServices(IServiceCollection services)
     // services.AddSingleton<IStudentRepository, StudentRepository>();
 
     services.AddScoped<IStudentRepository, RealStudentRepository>();
-
+    services.AddLogging();
     services.AddDbContext<DemoContext>();
 }
 
 void ConfigurePipeline(WebApplication app)
 {
+    app.UseMiddleware<ExceptionHandlerMiddleware>();
+
     // Swagger
     app.UseSwagger();
     app.UseSwaggerUI();

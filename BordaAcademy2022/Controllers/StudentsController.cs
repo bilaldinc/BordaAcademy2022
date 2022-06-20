@@ -42,7 +42,7 @@ namespace BordaAcademy2022.Controllers
             Student? student = _studentRepository.GetStudentById(id);
             if (student == null)
             {
-                return NotFound();
+                throw new KeyNotFoundException();
             }
 
             return Ok(student);
@@ -51,11 +51,16 @@ namespace BordaAcademy2022.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateStudent(int id, [FromBody] StudentDto studentDto)
         {
+            if(studentDto.Name is null)
+            {
+                throw new ArgumentException();
+            }
 
             Student? student = _studentRepository.GetStudentById(id);
+            
             if (student == null)
             {
-                return NotFound();
+                throw new KeyNotFoundException();
             }
 
             student.Name = studentDto.Name;
