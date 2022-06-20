@@ -1,3 +1,4 @@
+using BordaAcademy2022.Database;
 using BordaAcademy2022.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,11 @@ void ConfigureServices(IServiceCollection services)
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
 
-    services.AddSingleton<IStudentRepository, StudentRepository>();
+    // services.AddSingleton<IStudentRepository, StudentRepository>();
+
+    services.AddScoped<IStudentRepository, RealStudentRepository>();
+
+    services.AddDbContext<DemoContext>();
 }
 
 void ConfigurePipeline(WebApplication app)
