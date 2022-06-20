@@ -1,9 +1,7 @@
 ﻿using BordaAcademy2022.Dtos;
 using BordaAcademy2022.Entities;
 using BordaAcademy2022.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace BordaAcademy2022.Controllers
 {
