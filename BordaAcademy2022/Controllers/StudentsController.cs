@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BordaAcademy2022.Dtos;
+using BordaAcademy2022.Entities;
+using BordaAcademy2022.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -8,11 +11,72 @@ namespace BordaAcademy2022.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
+        // CRUD, Create, Read, Update, Delete
+        private readonly IStudentRepository _studentRepository;
+
+        public StudentsController(IStudentRepository studentRepository)
+        {
+            _studentRepository = studentRepository;
+        }
 
         [HttpGet]
-        public IActionResult MyMethod()
+        public IActionResult GetStudents()
         {
-            return Ok("Student 1");
+            var students = _studentRepository.GetStudents();
+
+            return Ok(students);
+        }
+
+        [HttpPost]
+        public IActionResult CreateStudent([FromBody] Student student)
+        {
+            _studentRepository.CreateStudent(student);
+
+            return Ok(student);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetStudent(int id)
+        {
+            Student? student = _studentRepository.GetStudentById(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(student);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateStudent(int id, [FromBody] StudentDto studentDto)
+        {
+
+            Student? student = _studentRepository.GetStudentById(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            student.Name = studentDto.Name;
+            student.Surname = studentDto.Surname;
+
+            _studentRepository.UpdateStudent(student);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteStudent(int id)
+        {
+            Student? student = _studentRepository.GetStudentById(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            _studentRepository.DeleteStudent(id);
+
+            return NoContent();
         }
     }
 }

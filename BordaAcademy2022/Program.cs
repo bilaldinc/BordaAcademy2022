@@ -1,3 +1,5 @@
+using BordaAcademy2022.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigureServices(builder.Services);
@@ -15,6 +17,8 @@ void ConfigureServices(IServiceCollection services)
     // Swagger
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
+
+    services.AddSingleton<IStudentRepository, StudentRepository>();
 }
 
 void ConfigurePipeline(WebApplication app)
